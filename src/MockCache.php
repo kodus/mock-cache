@@ -3,8 +3,8 @@
 namespace Kodus\Cache;
 
 use DateInterval;
-use InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
+use Traversable;
 
 /**
  * WARNING! Don't use in production, only use for automated testing!
@@ -63,6 +63,8 @@ class MockCache implements CacheInterface
 
     public function get($key, $default = null)
     {
+        $this->validateKey($key);
+
         return isset($this->cache_expiration[$key]) && ($this->time < $this->cache_expiration[$key])
             ? unserialize($this->cache[$key])
             : $default;
@@ -70,9 +72,7 @@ class MockCache implements CacheInterface
 
     public function set($key, $value, $ttl = null)
     {
-        if (preg_match(self::PSR16_RESERVED, $key, $match) === 1) {
-            throw new InvalidArgumentException("invalid character in key: {$match[0]}");
-        }
+        $this->validateKey($key);
 
         if (is_int($ttl)) {
             $expires_at = $this->time + $ttl;
@@ -92,8 +92,18 @@ class MockCache implements CacheInterface
 
     public function delete($key)
     {
+        $this->validateKey($key);
+
+        $success = true;
+
+        if (! isset($this->cache[$key]) || ! isset($this->cache_expiration[$key])) {
+            $success = false;
+        }
+
         unset($this->cache[$key]);
         unset($this->cache_expiration[$key]);
+
+        return $success;
     }
 
     public function clear()
@@ -102,20 +112,30 @@ class MockCache implements CacheInterface
         $this->cache_expiration = [];
     }
 
-    public function getMultiple($keys)
+    public function getMultiple($keys, $default = null)
     {
+        if (! is_array($keys) && ! $keys instanceof Traversable) {
+            throw new InvalidArgumentException("keys must be either of type array or Traversable");
+        }
+
         $values = [];
 
         foreach ($keys as $key) {
-            $values[$key] = $this->get($key);
+            $this->validateKey($key);
+            $values[$key] = $this->get($key) ?: $default;
         }
 
         return $values;
     }
 
-    public function setMultiple($items, $ttl = null)
+    public function setMultiple($values, $ttl = null)
     {
-        foreach ($items as $key => $value) {
+        if (! is_array($values) && ! $values instanceof Traversable) {
+            throw new InvalidArgumentException("keys must be either of type array or Traversable");
+        }
+
+        foreach ($values as $key => $value) {
+            $this->validateKey($key);
             $this->set($key, $value, $ttl);
         }
 
@@ -124,7 +144,12 @@ class MockCache implements CacheInterface
 
     public function deleteMultiple($keys)
     {
+        if (! is_array($keys) && ! $keys instanceof Traversable) {
+            throw new InvalidArgumentException("keys must be either of type array or Traversable");
+        }
+
         foreach ($keys as $key) {
+            $this->validateKey($key);
             $this->delete($key);
         }
     }
@@ -132,5 +157,12 @@ class MockCache implements CacheInterface
     public function has($key)
     {
         return $this->get($key, $this) !== $this;
+    }
+
+    protected function validateKey($key)
+    {
+        if (preg_match(self::PSR16_RESERVED, $key, $match) === 1) {
+            throw new InvalidArgumentException("invalid character in key: {$match[0]}");
+        }
     }
 }
