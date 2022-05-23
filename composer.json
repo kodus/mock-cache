@@ -21,7 +21,8 @@
         "psr/simple-cache": "^1"
     },
     "require-dev": {
-        "codeception/codeception": "^3",
+        "codeception/codeception": "^4",
+        "codeception/module-asserts": "^2.0",
         "mindplay/simple-cache": "^1"
     },
     "autoload": {
