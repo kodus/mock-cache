@@ -61,7 +61,7 @@ class MockCache implements CacheInterface
         $this->time += $seconds;
     }
 
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $this->validateKey($key);
 
@@ -70,7 +70,7 @@ class MockCache implements CacheInterface
             : $default;
     }
 
-    public function set($key, $value, $ttl = null)
+    public function set(string $key, mixed $value, DateInterval|int|null $ttl = null): bool
     {
         $this->validateKey($key);
 
@@ -90,7 +90,7 @@ class MockCache implements CacheInterface
         return true;
     }
 
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $this->validateKey($key);
 
@@ -106,13 +106,14 @@ class MockCache implements CacheInterface
         return $success;
     }
 
-    public function clear()
+    public function clear(): bool
     {
         $this->cache = [];
         $this->cache_expiration = [];
+        return true;
     }
 
-    public function getMultiple($keys, $default = null)
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         if (! is_array($keys) && ! $keys instanceof Traversable) {
             throw new InvalidArgumentException("keys must be either of type array or Traversable");
@@ -128,7 +129,7 @@ class MockCache implements CacheInterface
         return $values;
     }
 
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple(iterable $values, DateInterval|int|null $ttl = null): bool
     {
         if (! is_array($values) && ! $values instanceof Traversable) {
             throw new InvalidArgumentException("keys must be either of type array or Traversable");
@@ -142,7 +143,7 @@ class MockCache implements CacheInterface
         return true;
     }
 
-    public function deleteMultiple($keys)
+    public function deleteMultiple(iterable $keys): bool
     {
         if (! is_array($keys) && ! $keys instanceof Traversable) {
             throw new InvalidArgumentException("keys must be either of type array or Traversable");
@@ -152,9 +153,10 @@ class MockCache implements CacheInterface
             $this->validateKey($key);
             $this->delete($key);
         }
+        return true;
     }
 
-    public function has($key)
+    public function has(string $key): bool
     {
         return $this->get($key, $this) !== $this;
     }
