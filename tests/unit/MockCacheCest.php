@@ -158,7 +158,7 @@ class MockCacheCest
 
         $I->assertSame("value3", $this->cache->get("key3"));
 
-        $I->expectThrowable(InvalidArgumentException::class, function () {
+        $I->expectThrowable(TypeError::class, function () {
             $this->cache->deleteMultiple("Invalid type");
         });
 

@@ -138,10 +138,6 @@ class MockCache implements CacheInterface
 
     public function deleteMultiple(iterable $keys): bool
     {
-        if (! is_array($keys) && ! $keys instanceof Traversable) {
-            throw new InvalidArgumentException("keys must be either of type array or Traversable");
-        }
-
         foreach ($keys as $key) {
             $this->validateKey($key);
             $this->delete($key);
