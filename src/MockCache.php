@@ -61,7 +61,7 @@ class MockCache implements CacheInterface
         $this->time += $seconds;
     }
 
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $this->validateKey($key);
 
