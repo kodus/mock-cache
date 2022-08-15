@@ -106,10 +106,12 @@ class MockCache implements CacheInterface
         return $success;
     }
 
-    public function clear()
+    public function clear(): bool
     {
         $this->cache = [];
         $this->cache_expiration = [];
+
+        return true;
     }
 
     public function getMultiple($keys, $default = null)
