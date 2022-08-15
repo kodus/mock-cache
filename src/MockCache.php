@@ -158,7 +158,7 @@ class MockCache implements CacheInterface
         return true;
     }
 
-    public function has($key)
+    public function has(string $key): bool
     {
         return $this->get($key, $this) !== $this;
     }
