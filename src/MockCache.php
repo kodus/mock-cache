@@ -130,7 +130,7 @@ class MockCache implements CacheInterface
         return $values;
     }
 
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple(iterable $values, DateInterval|int|null $ttl = null): bool
     {
         if (! is_array($values) && ! $values instanceof Traversable) {
             throw new InvalidArgumentException("keys must be either of type array or Traversable");
