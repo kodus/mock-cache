@@ -90,7 +90,7 @@ class MockCache implements CacheInterface
         return true;
     }
 
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $this->validateKey($key);
 
