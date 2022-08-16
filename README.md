@@ -1,7 +1,7 @@
 kodus/mock-cache
 ================
 
-[![PHP Version](https://img.shields.io/badge/php-5.6%2B-blue.svg)](https://packagist.org/packages/kodus/mock-cache)
+[![PHP Version](https://img.shields.io/badge/php-8.1%2B-blue.svg)](https://packagist.org/packages/kodus/mock-cache)
 [![Build Status](https://travis-ci.org/kodus/mock-cache.svg?branch=master)](https://travis-ci.org/kodus/mock-cache)
 [![Code Coverage](https://scrutinizer-ci.com/g/kodus/mock-cache/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kodus/mock-cache/?branch=master)
 
