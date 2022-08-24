@@ -17,12 +17,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">= 5.6",
+        "php": ">= 8.0",
         "psr/simple-cache": "^1"
     },
     "require-dev": {
-        "codeception/codeception": "^2",
-        "mindplay/simple-cache": "^1"
+        "codeception/codeception": "^5",
+        "codeception/module-asserts": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -32,7 +32,7 @@
     "autoload-dev": {
         "psr-4": {
             "Kodus\\Cache\\Test\\": "tests/",
-            "Kodus\\Cache\\Test\\Integration\\": "tests/integration/"
+            "Kodus\\Cache\\Test\\Unit\\": "tests/unit/"
         }
     }
 }
