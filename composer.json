@@ -18,7 +18,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">= 8.0",
-        "psr/simple-cache": "^2|^3"
+        "psr/simple-cache": "^2||^3"
     },
     "require-dev": {
         "codeception/codeception": "^5",
