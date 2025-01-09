@@ -34,5 +34,8 @@
             "Kodus\\Cache\\Test\\": "tests/",
             "Kodus\\Cache\\Test\\Unit\\": "tests/unit/"
         }
+    },
+    "scripts": {
+        "test": "codecept run"
     }
 }
